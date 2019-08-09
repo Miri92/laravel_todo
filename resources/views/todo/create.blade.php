@@ -14,4 +14,5 @@
             <button class="btn btn-primary" type="submit">Create</button>
         </form>
     </div>
+    <div class="col-md-6"></div>
 </div>
