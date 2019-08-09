@@ -14,3 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('todo/list', 'TodoController@index')->name('todo.list');
+Route::get('todo/create', 'TodoController@create')->name('todo.create');
+Route::get('todo/store', 'TodoController@store')->name('todo.store');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
