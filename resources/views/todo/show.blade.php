@@ -10,15 +10,16 @@
     <div class="col-md-4">
         <div class="well">
             <h3>Share This Todo</h3>
-            <from action="{{route('todo.share')}}" method="post">
+            <form action="{{route('todo.share')}}" method="post">
+                {{ csrf_field() }}
                 <div class="input-group">
-                    <input type="text" name="share" class="form-control" placeholder="Username">
+                    <input type="text" name="shared_with" class="form-control" placeholder="Username" required>
                     <span class="input-group-btn">
-                    <button class="btn btn-primary" type="button">Share</button>
+                    <button class="btn btn-primary" type="submit">Share</button>
                 </span>
                 </div>
-                <input type="hidden" name="share" class="form-control" value="{{$todo->id}}">
-            </from>
+                <input type="hidden" name="todo_id" class="form-control" value="{{$todo->id}}">
+            </form>
         </div>
         <div class="well">
             <h3>This Todo Shared with</h3>

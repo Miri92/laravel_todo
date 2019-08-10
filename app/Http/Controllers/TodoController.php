@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Shared;
 use App\Todo;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -80,12 +81,63 @@ class TodoController extends Controller
         ])->with('shared')->first();
 
         if (!$todo){
-            return abort('404');
+            $error = '404 not found';
+            return $error;
         }
+
+        $check_shared = Shared::where([
+            ['shared_with','=',Auth::user()->id],
+            ['todo_id','=',$id]
+        ])->first();
+
+        if ($todo->author == Auth::user()->id || $check_shared){
+            return view('todo.show', compact('todo'));
+        }
+
+        $error = 'you have not permission';
+        return $error;
 
         //return $todo->shared;
 
-        return view('todo.show', compact('todo'));
+
+    }
+
+    public function share(Request $request)
+    {
+        //return dd($request->all());
+
+        $get_user = User::where([
+            ['name','=',$request->input('shared_with')]
+        ])->first();
+        if (!$get_user){
+            $error = 'user not found';
+            return redirect()->route('todo.detail',$request->input('todo_id'))->with(compact('error'));
+        }
+
+        //check if already shared
+        $check_shared = Shared::where([
+            ['shared_with','=',$get_user->id],
+            ['todo_id','=',$request->input('todo_id')]
+        ])->first();
+
+        if ($check_shared){
+            $error = 'this Todo already shared with the user';
+            return redirect()->route('todo.detail',$request->input('todo_id'))->with(compact('error'));
+        }
+
+        $todo = Shared::create([
+            'todo_id' => $request->input('todo_id'),
+            'shared_with' => $get_user->id,
+        ]);
+
+        $todo->save();
+
+        $success = 'succesful shared';
+        return redirect()->route('todo.detail', $request->input('todo_id'))->with(compact('success'));
+
+        //$todoShared[] = new Shared(['todo_id'=> $todo->id,'shared_with' => 2]);
+//
+//        $todo->Shared()->saveMany($todoShared);
     }
 
     /**

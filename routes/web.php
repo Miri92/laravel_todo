@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 
 Route::group(['middleware' => ['web','auth']], function () {
+    Route::get('/home', 'TodoController@index');
     Route::get('todo/list', 'TodoController@index')->name('todo.list');
     Route::get('todo/create', 'TodoController@create')->name('todo.create');
     Route::post('todo/store', 'TodoController@store')->name('todo.store');
@@ -27,4 +28,4 @@ Route::group(['middleware' => ['web','auth']], function () {
 });
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+
