@@ -28,6 +28,7 @@ class SendMail extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.test');
+        return $this->from(config('mail.from.address'))
+            ->view('mail.test');
     }
 }

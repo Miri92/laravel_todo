@@ -16,6 +16,8 @@ class MailController extends Controller
 
     public function test()
     {
-        Mail::to(config('app.admin_mail'))->send(new SendMail());
+        //Mail::to(config('app.admin_mail'))->send(new SendMail());
+
+        Mail::to(config('app.admin_mail'))->queue(new SendMail());
     }
 }
