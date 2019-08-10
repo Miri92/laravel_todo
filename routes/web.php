@@ -26,6 +26,8 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::delete('todo/delete/{id}', 'TodoController@destroy')->name('todo.destroy');
     Route::post('todo/share', 'TodoController@share')->name('todo.share');
 });
+
+Route::get('/mail/test', 'MailController@test');
 Auth::routes();
 
 
