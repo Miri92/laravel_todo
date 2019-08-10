@@ -1,0 +1,2 @@
+<h2>test mail</h2>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ad aliquam aut, blanditiis dicta, ipsa minus odit placeat possimus praesentium quisquam, quo? Aut consectetur dolorum ipsum itaque minus, unde voluptate.</p>
