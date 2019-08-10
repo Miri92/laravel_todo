@@ -17,6 +17,15 @@ class Shared extends Model
      */
     public function todos()
     {
-        return $this->belongsToMany('App\Todo');
+        return $this->hasMany('App\Todo', 'id', 'todo_id');
+    }
+
+    public function getUserNameAttribute() {
+        $details = User::where('id', $this->attributes['shared_with'])->first();
+
+        if ($details){
+            return $details->name;
+        }
+
     }
 }

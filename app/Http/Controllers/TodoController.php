@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Shared;
 use App\Todo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TodoController extends Controller
 {
@@ -15,7 +16,18 @@ class TodoController extends Controller
      */
     public function index()
     {
-        //
+        $select = Shared::where([
+           ['shared_with', '=', 22]
+        ])->with('todos')->get();
+
+        $get_todos = Todo::where([
+           ['author', '=', Auth::user()->id]
+        ])->with('shared')->get();
+
+        //dd($select);
+        //return $select;
+
+        return view('home', compact('get_todos'));
     }
 
     /**
@@ -40,14 +52,19 @@ class TodoController extends Controller
 
         $todo = Todo::create([
             'title' => $request->input('title'),
-            'description' => $request->input('title'),
-            'author' => 1,
+            'description' => $request->input('description'),
+            'author' => Auth::user()->id,
             'schedule' => null,
         ]);
 
-        $todoShared[] = new Shared(['todo_id'=>$todo->id,'shared_with' => 2]);
+        $todo->save();
 
-        $todo->Shared()->saveMany($todoShared);
+        $success = 'succesful created';
+        return redirect()->route('todo.list')->with(compact('success'));
+
+       //$todoShared[] = new Shared(['todo_id'=> $todo->id,'shared_with' => 2]);
+//
+//        $todo->Shared()->saveMany($todoShared);
     }
 
     /**
@@ -58,7 +75,17 @@ class TodoController extends Controller
      */
     public function show($id)
     {
-        //
+        $todo = Todo::where([
+            ['id', '=', $id]
+        ])->with('shared')->first();
+
+        if (!$todo){
+            return abort('404');
+        }
+
+        //return $todo->shared;
+
+        return view('todo.show', compact('todo'));
     }
 
     /**
@@ -92,6 +119,9 @@ class TodoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Todo::where('id', $id)->delete();
+        $success = 'succesful deleted';
+// back() isletme cunki edit-den silende tezeden ozune qayidir ve not found erroru verir
+        return redirect()->route('todo.list')->with(compact('success'));
     }
 }

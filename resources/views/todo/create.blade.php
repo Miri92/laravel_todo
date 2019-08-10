@@ -1,6 +1,7 @@
-@extends('layout')
+@extends('layouts.app')
 
 @section('content')
+    <div class="container">
 <div class="row">
     <div class="col-md-6">
         <form action="{{ route('todo.store') }}" method="post">
@@ -19,4 +20,5 @@
     </div>
     <div class="col-md-6"></div>
 </div>
+    </div>
 @endsection

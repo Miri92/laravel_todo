@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Todo extends Model
 {
+    protected $table = 'todos';
     protected $fillable = [
         'title',
         'author',
@@ -18,6 +19,6 @@ class Todo extends Model
      */
     public function Shared()
     {
-        return $this->belongsToMany('App\Shared', 'shareds','shared_with','todo_id');
+        return $this->hasMany('App\Shared', 'todo_id', 'id');
     }
 }

@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'ToDO') }}</title>
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
@@ -36,7 +36,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name', 'ToDo') }}
                     </a>
                 </div>
 
@@ -77,6 +77,27 @@
                 </div>
             </div>
         </nav>
+
+
+        <div class="messages container">
+            @if (isset($errors) && count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if ( session()->has('success') )
+                <p class="alert alert-success">{{ session()->get('success') }}</p>
+            @endif
+
+            @if(isset($success))
+                <p class="alert alert-success">{{ $success }}</p>
+            @endif
+        </div>
 
         @yield('content')
     </div>

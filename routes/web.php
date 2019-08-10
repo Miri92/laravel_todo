@@ -15,9 +15,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('todo/list', 'TodoController@index')->name('todo.list');
-Route::get('todo/create', 'TodoController@create')->name('todo.create');
-Route::post('todo/store', 'TodoController@store')->name('todo.store');
+
+Route::group(['middleware' => ['web','auth']], function () {
+    Route::get('todo/list', 'TodoController@index')->name('todo.list');
+    Route::get('todo/create', 'TodoController@create')->name('todo.create');
+    Route::post('todo/store', 'TodoController@store')->name('todo.store');
+    Route::get('todo/detail/{id}', 'TodoController@show')->name('todo.detail');
+    Route::patch('todo/update/{id}', 'TodoController@update')->name('todo.update');
+    Route::delete('todo/delete/{id}', 'TodoController@destroy')->name('todo.destroy');
+    Route::post('todo/share', 'TodoController@share')->name('todo.share');
+});
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
