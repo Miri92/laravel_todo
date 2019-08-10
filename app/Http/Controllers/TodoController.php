@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Shared;
+use App\Todo;
 use Illuminate\Http\Request;
 
 class TodoController extends Controller
@@ -34,7 +36,18 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        return dd($request->all());
+        //return dd($request->all());
+
+        $todo = Todo::create([
+            'title' => $request->input('title'),
+            'description' => $request->input('title'),
+            'author' => 1,
+            'schedule' => null,
+        ]);
+
+        $todoShared[] = new Shared(['todo_id'=>$todo->id,'shared_with' => 2]);
+
+        $todo->Shared()->saveMany($todoShared);
     }
 
     /**

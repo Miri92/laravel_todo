@@ -12,4 +12,12 @@ class Todo extends Model
         'description',
         'schedule'
     ];
+
+    /**
+     * The users that belong to the role.
+     */
+    public function Shared()
+    {
+        return $this->belongsToMany('App\Shared', 'shareds','shared_with','todo_id');
+    }
 }

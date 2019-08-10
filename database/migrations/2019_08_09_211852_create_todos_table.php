@@ -18,7 +18,7 @@ class CreateTodosTable extends Migration
             $table->integer('author');
             $table->string('title');
             $table->mediumText('description');
-            $table->date('schedule');
+            $table->date('schedule')->nullable();
             $table->timestamps();
         });
     }
