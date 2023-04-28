@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+//test
 Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/home', 'TodoController@index');
     Route::get('todo/list', 'TodoController@index')->name('todo.list');
